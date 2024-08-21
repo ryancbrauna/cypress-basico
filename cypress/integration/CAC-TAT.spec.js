@@ -15,11 +15,29 @@ describe("Central de Atendimento ao Cliente TAT", function () {
     //Digita no campo "Sobrenome"
     cy.get('[name="lastName"]').should("be.visible").type("Brauna");
     //Digita no campo "E-mail"
-    cy.get('#email').should("be.visible").type("ryanbrauna@email.com");
+    cy.get("#email").should("be.visible").type("ryanbrauna@email.com");
     //Digita no campo "Como podemos ajudar?"
-    cy.get('[name="open-text-area"]').should("be.visible").type("Assunto criado para teste automatizado",  {delay: 0});
+    cy.get('[name="open-text-area"]')
+      .should("be.visible")
+      .type("Assunto criado para teste automatizado", { delay: 0 });
     //Aciona botao "Enviar"
     cy.get(".button").should("be.visible").and("have.text", "Enviar").click();
   });
 
+  it("Exibe mensagem de erro ao submeter o formulário com um email com formatação inválida", function () {
+    //Digita no campo "Nome"
+    cy.get('[name="firstName"]').should("be.visible").type("Ryan");
+    //Digita no campo "Sobrenome"
+    cy.get('[name="lastName"]').should("be.visible").type("Brauna");
+    //Digita informação inválida no campo "E-mail"
+    cy.get("#email").should("be.visible").type("ryanbraunaemailcom");
+    //Digita no campo "Como podemos ajudar?"
+    cy.get('[name="open-text-area"]')
+      .should("be.visible")
+      .type("Assunto criado para teste automatizado", { delay: 0 });
+    //Aciona botao "Enviar"
+    cy.get(".button").should("be.visible").and("have.text", "Enviar").click();
+    //Valida mensagem de erro apresentada
+    cy.get(".error").should("be.visible");
+  });
 });
